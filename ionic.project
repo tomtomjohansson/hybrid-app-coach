@@ -1,0 +1,9 @@
+{
+   "name": "coach",
+   "app_id": "",
+   "gulpStartupTasks": [
+      "sass",
+      "browserify",
+      "watch"
+   ]
+}

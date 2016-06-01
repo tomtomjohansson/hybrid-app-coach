@@ -1,0 +1,24 @@
+<ion-view view-title="{{title}}">
+   <ion-content class="padding">
+      <div ng-show="error">
+         <span class="alert-text">{{ error.message }}</span>
+      </div>
+      <div ng-hide="loggedIn">
+         <form ng-submit="logIn()">
+            <div class="list">
+               <label class="item item-input item-floating-label">
+                  <span class="input-label">First Name</span>
+                  <input required type="text" class="form-control" placeholder="Användarnamn" ng-model="user.username">
+               </label>
+               <label class="item item-input item-floating-label">
+                  <span class="input-label">Last Name</span>
+                  <input required type="password" class="form-control" placeholder="Lösenord" ng-model="user.password">
+               </label>
+            </div>
+            <button ng-click="logIn()" class="button button-block button-positive" type="submit" class="submitter">Logga in</button>
+         </form>
+         <p>Inte medlem än? <a ui-sref="nav.register">Registrera dig nu</a></p>
+      </div>
+      <button ng-show="loggedIn" ng-click="logOut()" class="button button-block button-positive" type="submit" class="submitter">Logga ut</button>
+   </ion-content>
+</ion-view>

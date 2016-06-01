@@ -1,0 +1,26 @@
+<ion-view view-title="Registrering">
+   <ion-content class="padding">
+      <div ng-show="error">
+         <span class="alert-text">{{ error.message }}</span>
+      </div>
+      <form ng-submit="register()">
+         <h2>Registrering</h2>
+         <div class="list">
+            <label class="item item-input item-floating-label">
+               <span class="input-label">First Name</span>
+               <input required type="text" class="form-control" placeholder="Användarnamn" ng-model="user.username">
+            </label>
+            <label class="item item-input item-floating-label">
+               <span class="input-label">Last Name</span>
+               <input required type="password" class="form-control" placeholder="Lösenord" ng-model="user.password">
+            </label>
+            <label class="item item-input item-floating-label">
+               <span class="input-label">Last Name</span>
+               <input required type="text" class="form-control" placeholder="Förening" ng-model="user.club">
+            </label>
+         </div>
+         <button class="button button-block button-positive" type="submit" class="submitter">Logga in</button>
+      </form>
+
+   </ion-content>
+</ion-view>
