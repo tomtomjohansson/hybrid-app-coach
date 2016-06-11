@@ -1,0 +1,25 @@
+<ion-modal-view>
+    <ion-header-bar class="bar-royal">
+      <h1 class="title">Sätt plus</h1>
+    </ion-header-bar>
+    <ion-content class="padding">
+      <form ng-submit="giveBonus();">
+         <ion-item class="item item-divider">
+            <strong>Spelare som ska få plus:</strong>
+         </ion-item>
+         <ion-list>
+               <li  class="item item-toggle" ng-repeat="player in game.players | orderBy:'name' | filter:hasPlayed">
+                  {{player.name}}
+                  <label class="toggle toggle-royal">
+                     <input type="checkbox" ng-model="player.bonus" ng-value=0 ng-true-value=1 ng-false-value=0>
+                     <div class="track">
+                        <div class="handle"></div>
+                     </div>
+                  </label>
+               </li>
+         </ion-list>
+         <button class="button button-block button-royal" type="submit">Dela ut plus</button>
+      </form>
+      <button class="button button-block button-calm" ng-click="closeModal(3)">Avbryt</button>
+    </ion-content>
+  </ion-modal-view>

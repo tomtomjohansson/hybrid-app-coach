@@ -1,0 +1,68 @@
+<ion-view view-title="Under match">
+   <ion-content class="padding stats has-tabs">
+      <ion-list>
+         <ion-item class="item item-divider">
+            <span class="left">{{loggedIn.club}}</span>
+            <span class="right">{{game.opponent}}</span>
+         </ion-item>
+         <ion-item class="item item-divider centre-text">
+            Mål
+         </ion-item>
+         <ion-item class="item centre-text">
+            <span class="left">
+               <button ng-click="change.stats = ['goals','for'];setEvent();openModal(1);" class="button button-royal stat-button">+</button>
+            </span>
+               {{game.goals.for}} - {{game.goals.against}}
+            <span class="right">
+               <button ng-click="change.stats = ['goals','against'];updateGameStats();" class="button button-royal stat-button">+</button>
+            </span>
+         </ion-item>
+         <ion-item class="item item-divider centre-text">Avslut</ion-item>
+         <ion-item class="item centre-text">
+            <span class="left">
+               <button ng-click="change.stats = ['shots','for'];setEvent();openModal(1);" class="button button-royal stat-button">+</button>
+            </span>
+               {{game.shots.for}} - {{game.shots.against}}
+            <span class="right">
+               <button ng-click="change.stats = ['shots','against'];updateGameStats();" class="button button-royal stat-button">+</button>
+            </span>
+         </ion-item>
+         <ion-item class="item item-divider centre-text">Hörnor</ion-item>
+         <ion-item class="item centre-text">
+            <span class="left">
+               <button ng-click="change.stats = ['corners','for'];updateGameStats();" class="button button-royal stat-button">+</button>
+            </span>
+               {{game.corners.for}} - {{game.corners.against}}
+            <span class="right">
+               <button ng-click="change.stats = ['corners','against'];updateGameStats();" class="button button-royal stat-button">+</button>
+            </span>
+         </ion-item>
+         <ion-item class="item item-divider centre-text">Gula kort</ion-item>
+         <ion-item class="item centre-text">
+            <span class="left">
+               <button ng-click="change.stats = ['yellow','for'];setEvent();openModal(1);" class="button button-royal stat-button">+</button>
+            </span>
+               {{game.yellow.for}} - {{game.yellow.against}}
+            <span class="right">
+               <button ng-click="change.stats = ['yellow','against'];updateGameStats();" class="button button-royal stat-button">+</button>
+            </span>
+         </ion-item>
+         <ion-item class="item item-divider centre-text">Röda kort</ion-item>
+         <ion-item class="item centre-text">
+            <span class="left">
+               <button ng-click="change.stats = ['red','for'];setEvent();openModal(1);" class="button button-royal stat-button">+</button>
+            </span>
+               {{game.red.for}} - {{game.red.against}}
+            <span class="right">
+               <button ng-click="change.stats = ['red','against'];updateGameStats();" class="button button-royal stat-button">+</button>
+            </span>
+         </ion-item>
+
+      </ion-list>
+      <button class="button button-block button-royal" ng-click="openModal(2)">Genomför byte</button>
+      <button class="button button-block button-royal" ng-click="openModal(3)">Dela ut plus</button>
+      <button class="button button-block button-calm" ng-click="saveGameOnEnd()">Spara slutförd match</button>
+
+   </ion-content>
+   <tabs-for-game></tabs-for-game>
+</ion-view>

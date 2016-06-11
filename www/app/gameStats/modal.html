@@ -1,0 +1,20 @@
+<ion-modal-view>
+    <ion-header-bar class="bar-royal">
+      <h1 class="title">{{event}}</h1>
+    </ion-header-bar>
+    <ion-content class="padding">
+      <form ng-submit="updateGameStats();">
+         <ion-list>
+            <ion-radio name="stat1" ng-repeat="player in game.players | orderBy:'name' | filter:isNinety" ng-model="change.id" value="{{player._id}}">{{player.name}}</ion-radio>
+         </ion-list>
+         <ion-list ng-if="assist">
+            <div class="item item-divider centre-text">
+               <strong>Assistläggare</strong>
+            </div>
+            <ion-radio name="stat2" ng-repeat="player in game.players | orderBy:'name' | filter:isNinety" ng-model="change.assist" value="{{player._id}}">{{player.name}}</ion-radio>
+         </ion-list>
+         <button class="button button-block button-royal" type="submit">Spara händelse</button>
+      </form>
+      <button class="button button-block button-calm" ng-click="closeModal(1)">Avbryt</button>
+    </ion-content>
+  </ion-modal-view>

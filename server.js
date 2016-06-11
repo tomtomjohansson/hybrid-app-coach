@@ -5,6 +5,8 @@ const path = require('path');
 const parser = require('body-parser');
 const router = require('./src/api/search');
 const login = require('./src/api/users');
+const games = require('./src/api/games');
+const players = require('./src/api/players');
 const PORT = process.env.PORT || 3000;
 const mongoose = require('mongoose');
 const passport = require('passport');
@@ -30,10 +32,10 @@ app.use(function(req, res, next) {
 });
 
 
-app.use(passport.initialize());
-
-app.use('/api', router);
 app.use('/api/authenticate', login);
+app.use('/api', router);
+app.use('/api/games', games);
+app.use('/api/players', players);
 
 app.get('/*', (req, res,next)=>{
    res.sendFile(path.join(__dirname, 'www/index.html'));

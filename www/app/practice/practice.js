@@ -1,7 +1,6 @@
 const practiceCtrl = angular.module('coachApp.PracticeCtrl',[])
-.controller('PracticeCtrl',($scope, $state, auth, search,$ionicModal)=>{
+.controller('PracticeCtrl',($scope, $state, auth, search,$ionicPopup)=>{
    $scope.loggedIn = auth.currentUser();
-   $scope.saved = false;
    if($scope.loggedIn){
       search.getPlayers($scope.loggedIn).success((response)=>{
          $scope.allPlayers = response.players;
@@ -17,7 +16,25 @@ const practiceCtrl = angular.module('coachApp.PracticeCtrl',[])
          delete x.training;
       });
       search.newTraining($scope.allPlayers,$scope.loggedIn.username).success((response)=>{
-         $scope.saved = true;
+         $scope.showAlert();
+      });
+   };
+
+   // An alert dialog
+   $scope.showAlert = function() {
+      var alertPopup = $ionicPopup.alert({
+         title: 'Träningen har sparats.',
+         template: 'Bra jobbat!',
+         buttons: [
+            {
+               text: 'Ok',
+               type: 'button-royal'
+            }
+         ]
+      });
+
+      alertPopup.then(function(res) {
+         console.log('Popup closed');
       });
    };
 

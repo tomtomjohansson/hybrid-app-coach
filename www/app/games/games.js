@@ -4,15 +4,11 @@ const gamesCtrl = angular.module('coachApp.GamesCtrl',[])
    $scope.game = {};
    $scope.game.venue = "Hemma";
 
-   if($scope.loggedIn){
-      search.getGames($scope.loggedIn).success((response)=>{
-         // console.log(response)
-         $scope.allGames = response.games;
-      });
-   }
+   search.getGames().success((response)=>{
+      $scope.allGames = response.games;
+   });
 
    $scope.addGame = ()=>{
-      // $scope.allGames.push($scope.game);
       $scope.game.username = $scope.loggedIn.username;
       search.addGame($scope.game).success((response)=>{
          $scope.game = {};

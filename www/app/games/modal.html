@@ -4,27 +4,27 @@
    </ion-header-bar>
    <ion-content class="padding">
       <form ng-submit="addGame();closeModal();">
-         <div class="list">
-            <label class="item item-input item-floating-label">
-               <span class="input-label">Motståndare</span>
-               <input required type="text" class="form-control" placeholder="Motståndare" ng-model="game.opponent">
-            </label>
-            <label class="item item-input item-floating-label">
-               <span class="input-label">Datum</span>
-               <input required max="2016-12-31" type="date" class="form-control" placeholder="Datum" ng-model="game.date">
-            </label>
-            <br>
-            <div class="item item-divider">
-               Matchen spelas
+         <div class="card">
+            <div class="list">
+               <label class="item item-input item-floating-label">
+                  <span class="input-label">Motståndare</span>
+                  <input required type="text" class="form-control" placeholder="Motståndare" ng-model="game.opponent">
+               </label>
+               <label class="item item-input item-floating-label">
+                  <span class="input-label">Datum</span>
+                  <input required max="2016-12-31" type="date" class="form-control" placeholder="Datum" ng-model="game.date">
+               </label>
+               <div class="item item-divider">
+                  Matchen spelas på:
+               </div>
+               <ion-list>
+                  <ion-radio ng-model="game.venue" ng-checked="game.venue" ng-value="'Hemma'">Hemmaplan</ion-radio>
+                  <ion-radio ng-model="game.venue" ng-checked="game.venue" ng-value="'Borta'">Bortaplan</ion-radio>
+               </ion-list>
             </div>
-            <ion-list>
-               <ion-radio ng-model="game.venue" ng-checked="game.venue" ng-value="'Hemma'">Hemma</ion-radio>
-               <ion-radio ng-model="game.venue" ng-checked="game.venue" ng-value="'Borta'">Borta</ion-radio>
-            </ion-list>
-
          </div>
-         <button class="button button-block button-positive" type="submit">Lägg till match</button>
-         <button class="button button-block button-royal" ng-click="closeModal()">Avbryt</button>
+         <button class="button button-block button-royal" type="submit">Lägg till match</button>
       </form>
+      <button class="button button-block button-calm" ng-click="closeModal()">Avbryt</button>
    </ion-content>
 </ion-modal-view>

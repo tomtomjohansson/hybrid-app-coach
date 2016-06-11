@@ -1,19 +1,21 @@
 <ion-view view-title="Matcher">
    <ion-content class="padding">
-      <ion-list>
-         <ion-item class="item-remove-animate item item-icon-right" ng-repeat="game in allGames | orderBy:'date'">
-            <span class="left">{{game.opponent}}, {{game.venue}}</span>
-            <span class="right">{{game.date}}</span>
-            <i class="icon ion-chevron-right icon-accessory"></i>
-            <ion-option-button class="button-assertive" ng-click="remove(game)">
-               Delete
-            </ion-option-button>
-         </ion-item>
-         <li ng-click="openModal()" class="item item-icon-left">
-            <i class="icon ion-android-add-circle"></i>
-            Lägg till Match
-         </ion->
-      </ion-list>
+      <div class="card">
+         <ion-list>
+            <ion-item class="item-remove-animate item item-icon-right" ng-repeat="game in allGames | orderBy:'date'" href="#/nav/pre/{{game._id}}">
+               <span class="left">{{game.opponent}}, {{game.venue}}</span>
+               <span class="right">{{game.date}}</span>
+               <i class="icon ion-chevron-right icon-accessory"></i>
+               <ion-option-button class="button-assertive" ng-click="remove(game)">
+                  Delete
+               </ion-option-button>
+            </ion-item>
+            <li ng-click="openModal()" class="item item-icon-left">
+               <i class="icon ion-android-add-circle"></i>
+               Lägg till Match
+            </ion->
+         </ion-list>
+      </div>
 
    </ion-content>
 </ion-view>

@@ -1,0 +1,49 @@
+<ion-view view-title="Statistik">
+   <ion-content class="padding has-tabs">
+      <div class="card">
+         <div class="item item-divider centre-text">
+            <strong>{{loggedIn.club}} {{game.goals.for}}-{{game.goals.against}} {{game.opponent}}</strong>
+         </div>
+         <div class="item centre-text item-text-wrap">
+            <p><strong>Avslut:</strong> {{game.shots.for}}-{{game.shots.against}}</p>
+         </div>
+         <div class="item centre-text item-text-wrap">
+            <p><strong>Hörnor:</strong> {{game.corners.for}}-{{game.corners.against}}</p>
+         </div>
+         <div class="item centre-text item-text-wrap">
+            <p><strong>Gula kort:</strong> {{game.yellow.for}}-{{game.yellow.against}}</p>
+         </div>
+         <div class="item centre-text item-text-wrap">
+            <p><strong>Röda kort:</strong> {{game.red.for}}-{{game.red.against}}</p>
+         </div>
+      </div>
+      <div class="card">
+         <div class="item item-divider">
+            <strong>Individuellt:</strong>
+         </div>
+         <div class="item item-text-wrap">
+            <p><strong>Mål: </strong><span ng-repeat="player in game.players | orderBy:'-goals' | filter:{goals:'!0'}">{{player.name}} {{player.goals}}, </span></p>
+         </div>
+         <div class="item item-text-wrap">
+            <p><strong>Assist: </strong><span ng-repeat="player in game.players | orderBy:'-assists' | filter:{assists:'!0'}">{{player.name}} {{player.assists}}, </span></p>
+         </div>
+         <div class="item item-text-wrap">
+            <p><strong>Avslut: </strong><span ng-repeat="player in game.players | orderBy:'-shots' | filter:{shots:'!0'}">{{player.name}} {{player.shots}}, </span></p>
+         </div>
+         <div class="item item-text-wrap">
+            <p><strong>Gula kort: </strong><span ng-repeat="player in game.players | orderBy:'-yellow' | filter:{yellow:'!0'}">{{player.name}} {{player.yellow}}, </span></p>
+         </div>
+         <div class="item item-text-wrap">
+            <p><strong>Röda kort: </strong><span ng-repeat="player in game.players | orderBy:'-red' | filter:{red:'!0'}">{{player.name}}, </span></p>
+         </div>
+         <div class="item item-text-wrap">
+            <p><strong>Plus till: </strong><span ng-repeat="player in game.players | orderBy:'-bonus' | filter:{bonus:'!0'}">{{player.name}}, </span></p>
+         </div>
+         <div class="item item-text-wrap">
+            <p><strong>Speltid: </strong><span ng-repeat="player in game.players | orderBy:'-minutes.total' | filter:hasPlayed">{{player.name}} {{player.minutes.total}}, <br></span></p>
+         </div>
+      </div>
+
+   </ion-content>
+   <tabs-for-game></tabs-for-game>
+</ion-view>

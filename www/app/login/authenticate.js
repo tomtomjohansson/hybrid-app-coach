@@ -33,13 +33,6 @@ const AuthCtrl = angular.module('coachApp.AuthCtrl',[])
       });
    };
 
-   // Logout in auth-factory, clears local-storage. Then go to home.
-   $scope.logOut = ()=>{
-      auth.logOut();
-      $window.location.reload(true);
-      $state.go('nav.login');
-   };
-
    $scope.goTo = ()=>{
       $state.go('nav.register');
    };

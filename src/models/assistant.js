@@ -14,11 +14,12 @@ const gameSchema = new mongoose.Schema({
    opponent: String,
    date: String,
    venue: String,
-   corners: {for:Number,against:Number},
-   goals: {for:Number,against:Number},
-   shots: {for:Number,against:Number},
-   chances: {for:Number,against:Number},
-   players: [{id:String,goals:Number,assists:Number,bonus:Number,yellow:Number,red:Number}]
+   goals: {for:{type:Number,'default':0},against:{type:Number,'default':0}},
+   shots: {for:{type:Number,'default':0},against:{type:Number,'default':0}},
+   corners: {for:{type:Number,'default':0},against:{type:Number,'default':0}},
+   yellow: {for:{type:Number,'default':0},against:{type:Number,'default':0}},
+   red: {for:{type:Number,'default':0},against:{type:Number,'default':0}},
+   players: [{id:String,name:String,goals:{type:Number,'default':0},shots:{type:Number,'default':0},assists:{type:Number,'default':0},bonus:{type:Number,'default':0},yellow:{type:Number,'default':0},red:{type:Number,'default':0},minutes:{in:{type:Number,'default':0},out:{type:Number,'default':0},total:{type:Number,'default':0}}}]
 });
 
 const assistantSchema = new mongoose.Schema({

@@ -2,6 +2,7 @@
 const mongoose = require('mongoose');
 
 // Connect to Mongo database
+// mongoose.connect('mongodb://127.0.0.1/assistant', (err)=>{
 mongoose.connect('mongodb://localhost/assistant', (err)=>{
    if(err){
       console.log('Failed connecting to database');

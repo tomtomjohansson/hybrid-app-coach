@@ -1,0 +1,50 @@
+<ion-view view-title="Spelarstatistik">
+   <ion-content id="stat-page" class="padding">
+      <div class="flip-container">
+         <div class="flipper" ng-class="{showBack:flipped}">
+            <div class="list card front">
+               <div class="item">
+                  <h2><strong>{{player.name}}</strong></h2>
+                  <button ng-click="flipped = !flipped" class="button right button-small button-royal">Visa träningsstatistik</button>
+                  <p>{{trainer.age}} år</p>
+               </div>
+               <div class="item item-text-wrap player-stats">
+                  <p class="player-headline">Offensiv</p>
+                  <p class="player-stat"><strong>Mål: </strong>{{player.goals}}</p>
+                  <p class="player-stat"><strong>Assist: </strong>{{player.assists}}</p>
+                  <p class="player-stat"><strong>Avslut: </strong>{{player.shots}}</p>
+                  <p class="player-stat"><strong>Avslut per match: </strong>{{player.shotsAvg | number:2}}</p>
+                  <p class="player-stat"><strong>Mål per match: </strong>{{player.goalsAvg | number:2}}</p>
+                  <p class="player-stat" ng-show="isNumber(player.goalOnShotsAvg)"><strong>Procent av avslut i mål: </strong>{{player.goalOnShotsAvg * 100 | number:1}}%</p>
+                  <p class="player-stat" ng-show="isNumber(player.goalOnShotsAvg)"><strong>Spelade minuter per mål: </strong>{{player.minutesPerGoal | number:1}}</p>
+                  <br><br>
+                  <p class="player-headline">Disciplin</p>
+                  <p class="player-stat"><strong>Gula kort: </strong>{{player.yellow}}</p>
+                  <p class="player-stat"><strong>Röda kort: </strong>{{player.red}}</p>
+                  <br><br>
+                  <p class="player-headline">Speltid</p>
+                  <p class="player-stat"><strong>Spelade matcher: </strong>{{player.games}}</p>
+                  <p class="player-stat"><strong>Spelade minuter: </strong>{{player.totalMinutes}}</p>
+                  <p class="player-stat"><strong>Matcher från start: </strong>{{player.gamesStarted}}</p>
+                  <p class="player-stat"><strong>Inhopp: </strong>{{player.gamesAsSub}}</p>
+                  <p class="player-stat"><strong>Minuter per spelad match: </strong>{{player.minutesPerGame | number:1}}</p>
+               </div>
+            </div>
+            <div class="list card back">
+               <div class="item">
+                  <h2><strong>{{trainer.name}}</strong></h2>
+                  <button ng-click="flipped = !flipped" class="button right button-small button-royal">Visa matchstatistik</button>
+                  <p>{{trainer.age}} år</p>
+               </div>
+               <div class="item item-text-wrap player-stats">
+                  <p class="player-headline">Träningar</p>
+                  <p class="player-stat"><strong>Träningsnärvaro i procent: </strong>{{trainer.trainingPercentage | number:2}}</p>
+                  <p class="player-stat"><strong>Senaste fem träningarna (senaste sist):</strong><br><i ng-repeat="session in trainer.lastFive track by $index" class="icon" ng-class="session ? 'ion-checkmark-circled' : 'ion-close-circled'"></i></p>
+               </div
+            </div>
+         </div>
+      </div>
+
+   </ion-content>
+   <!-- <tabs-for-game></tabs-for-game> -->
+</ion-view>

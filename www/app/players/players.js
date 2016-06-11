@@ -4,7 +4,7 @@ const playersCtrl = angular.module('coachApp.PlayersCtrl',[])
    $scope.player = {};
    if($scope.loggedIn){
       search.getPlayers($scope.loggedIn).success((response)=>{
-         console.log(response)
+         console.log(response);
          $scope.allPlayers = response.players;
       });
    }
@@ -12,6 +12,7 @@ const playersCtrl = angular.module('coachApp.PlayersCtrl',[])
    $scope.addPlayer = ()=>{
       $scope.player.username = $scope.loggedIn.username;
       search.addPlayer($scope.player).success((response)=>{
+         $scope.modal.hide();
          $scope.player = {};
          $window.location.reload(true);
       });
@@ -22,6 +23,7 @@ const playersCtrl = angular.module('coachApp.PlayersCtrl',[])
          $scope.allPlayers.splice($scope.allPlayers.indexOf(player),1);
       });
    };
+
 
    $ionicModal.fromTemplateUrl('/app/players/modal.html', {
       scope: $scope,

@@ -1,19 +1,21 @@
 <ion-view view-title="Spelare">
    <ion-content class="padding">
-      <ion-list>
-         <ion-item class="item-remove-animate item item-icon-right" ng-repeat="player in allPlayers | orderBy:'name'">
-            {{player.name}}
-            <i class="icon ion-chevron-right icon-accessory"></i>
+      <div class="card">
+         <ion-list>
+            <ion-item class="every-other item-remove-animate item item-icon-right" ng-repeat="player in allPlayers | orderBy:'name'" ui-sref="nav.player({playerID:player._id})">
+               {{player.name}}
+               <i class="icon ion-chevron-right icon-accessory"></i>
 
-            <ion-option-button class="button-assertive" ng-click="remove(player)">
-               Delete
-            </ion-option-button>
-         </ion-item>
-         <li ng-click="openModal()" class="item item-icon-left">
-            <i class="icon ion-android-add-circle"></i>
-            Lägg till spelare
-         </li>
-      </ion-list>
+               <ion-option-button class="button-assertive" ng-click="remove(player)">
+                  Delete
+               </ion-option-button>
+            </ion-item>
+            <li ng-click="openModal()" class="item item-icon-left">
+               <i class="icon ion-android-add-circle"></i>
+               Lägg till spelare
+            </li>
+         </ion-list>
+      </div>
 
    </ion-content>
 </ion-view>

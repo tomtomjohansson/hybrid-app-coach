@@ -1,21 +1,14 @@
-<ion-side-menus enable-menu-with-back-views="true">
+<ion-side-menus>
    <ion-side-menu side="left">
       <header class="bar bar-header bar-stable">
-         <h1 class="title">ProCoach</h1>
-         <p>{{club}}</p>
+         <h1 id="nav-logo" class="title">Like a Pr<i class="icon ion-ios-football"></i></h1>
+         <p id="nav-team">{{club}}</p>
 
       </header>
-      <ion-content class="has-header">
+      <ion-content class="has-header nav-content">
+         <div  id="nav-list">
          <ion-list>
-            <a ui-sref-active="action-text" menu-close class="item item-icon-left" ui-sref="nav.login">
-               <i ng-class="{'ion-log-in':!loggedIn,'ion-log-out':loggedIn}" class="icon"></i>
-               <div ng-show="loggedIn">Logga ut</div><div ng-hide="loggedIn">Logga in</div>
-            </a>
-            <a ui-sref-active="action-text" menu-close class="item item-icon-left" ui-sref="nav.register">
-               <i class="icon ion-person-add"></i>
-               Registrera
-            </a>
-            <a ui-sref-active="action-text" menu-close class=" fuck item item-icon-left" ui-sref="nav.games">
+            <a ui-sref-active="action-text" menu-close class="item item-icon-left"  ui-sref="nav.games({it:username})">
                <i class="icon ion-ios-football"></i>
                Matcher
             </a>
@@ -27,11 +20,16 @@
                <i class="icon ion-android-checkmark-circle"></i>
                Ny träning
             </a>
-            <a ui-sref-active="action-text" menu-close class="item item-icon-left" href="#">
+            <!-- <a ui-sref-active="action-text" menu-close class="item item-icon-left" href="#">
                <i class="icon ion-settings"></i>
                Inställningar
+            </a> -->
+            <a ng-click="logOut()" ui-sref-active="action-text" menu-close class="item item-icon-left" ui-sref="nav.login">
+               <i ng-class="{'ion-log-in':!loggedIn,'ion-log-out':loggedIn}" class="icon"></i>
+               <div ng-show="loggedIn">Logga ut</div><div ng-hide="loggedIn">Logga in</div>
             </a>
          </ion-list>
+         </div>
       </ion-content>
    </ion-side-menu>
 
@@ -41,8 +39,11 @@
             <button ng-show="loggedIn" menu-toggle="left" class="button button-icon icon ion-navicon"></button>
 
          </ion-nav-buttons>
+         <ion-nav-buttons side="right">
+         </ion-nav-buttons>
          <ion-nav-back-button>
          </ion-nav-back-button>
+
       </ion-nav-bar>
       <ion-nav-view animation="slide-left-right"></ion-nav-view>
    </ion-side-menu-content>

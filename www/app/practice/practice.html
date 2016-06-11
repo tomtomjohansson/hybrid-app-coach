@@ -1,23 +1,19 @@
 <ion-view view-title="Träning">
    <ion-content ng-hide="saved" class="padding">
-      <ul class="list">
-         <li  class="item item-toggle" ng-repeat="player in allPlayers">
-            {{player.name}}
-            <label class="toggle toggle-royal">
-               <input type="checkbox" ng-model="player.training" ng-value=0 ng-true-value=1 ng-false-value=0>
-               <div class="track">
-                  <div class="handle"></div>
-               </div>
-            </label>
-         </li>
-      </ul>
-      <button ng-click="savePractice()" class="button button-block button-positive">Spara träning</button>
-
-   </ion-content>
-   <ion-content ng-show="saved" class="padding">
-      <div>
-         <h4>Träningen har sparats</h4>
+      <div class="card">
+         <ul class="list">
+            <li  class="item item-toggle every-other" ng-repeat="player in allPlayers">
+               {{player.name}}
+               <label class="toggle toggle-royal">
+                  <input type="checkbox" ng-model="player.training" ng-value=0 ng-true-value=1 ng-false-value=0>
+                  <div class="track">
+                     <div class="handle"></div>
+                  </div>
+               </label>
+            </li>
+         </ul>
       </div>
+      <button ng-click="savePractice()" class="button button-block button-royal">Spara träning</button>
 
    </ion-content>
 </ion-view>
