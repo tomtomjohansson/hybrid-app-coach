@@ -16,7 +16,7 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 }
 
 ion-content:not(.nav-content){
-   background-image: url('../img/pitch.jpg');
+   @include bg-image('pitch.jpg');
    background-size: cover;
    background-position: center;
 }
@@ -61,7 +61,7 @@ ion-content:not(.nav-content){
 //On state-change
 .animation {
    .ng-enter {
-      transition: 0.3s;
+      @include transition(0.3s);
       opacity: 0;
    }
    .ng-enter-active {

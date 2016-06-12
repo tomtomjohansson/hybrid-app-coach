@@ -6,6 +6,7 @@ const playerStatsCtrl = angular.module('coachApp.PlayerStatsCtrl',[])
    $scope.flipped = false;
    $scope.noGames = false;
 
+   // Gets player stats (games) from database. Calls factory.
    search.getPlayerStats($scope.id).success((response)=>{
       $scope.player = response.player[0];
       console.log(response.player.length);
@@ -14,6 +15,7 @@ const playerStatsCtrl = angular.module('coachApp.PlayerStatsCtrl',[])
       }
    });
 
+   // Gets player stats (trainings) from database. Calls factory.
    search.getTrainingStats($scope.id).success((response)=>{
       $scope.trainer = response.trainer[0];
    });

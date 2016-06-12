@@ -5,9 +5,7 @@ const Assistant = require('../models/assistant');
 const moment = require('moment');
 const mongoose = require('mongoose');
 
-
-
-
+// Gets stats for specific game. Returns a game(subdocument).
 router.get('/gameStats/:gameID',(req,res,next)=>{
    Assistant.aggregate(
          {$unwind:"$games"},
@@ -27,6 +25,7 @@ router.get('/gameStats/:gameID',(req,res,next)=>{
    });
 });
 
+// Updates specific game. Returns the game.
 router.put('/gameStats',(req,res,next)=>{
    console.log(req.body);
    let find = {'games._id':mongoose.Types.ObjectId(req.body._id)};
@@ -41,10 +40,18 @@ router.put('/gameStats',(req,res,next)=>{
    });
 });
 
+// Gets stats from games for player pages.
+// 1. Selects only the games where the player participates.
+// 2. For every game, make an object in an array.
+// 3. Selects only the players key from those games.
+// 4. For every player participating in those games make object in array.
+// 5. Picks out only instances of desired player from array.
+// 6. Grouping. Selects all the stats desired and makes calculations.
+// 7. Final project. Calculates those instances from group-stage that needed further work.
 router.get('/playerStats/:playerID',(req,res,next)=>{
    Assistant.aggregate([
-         {$unwind:"$games"},
          {$match:{'games.players._id':mongoose.Types.ObjectId(req.params.playerID)}},
+         {$unwind:"$games"},
          {$project:{'player':'$games.players'}},
          {$unwind:"$player"},
          {$match:{'player._id':mongoose.Types.ObjectId(req.params.playerID)}},
@@ -62,6 +69,11 @@ router.get('/playerStats/:playerID',(req,res,next)=>{
    });
 });
 
+// Gets stats from traingin for player pages.
+// 1. Only selects player subdocuments.
+// 2. Makes array of objects for every subdocuments.
+// 3. Matches only instances of desired player from array.
+// 4. Makes calculations from those stats.
 router.get('/trainerStats/:playerID',(req,res,next)=>{
    Assistant.aggregate([
          {$project:{players:1}},
@@ -80,11 +92,18 @@ router.get('/trainerStats/:playerID',(req,res,next)=>{
    });
 });
 
+// Gets stats from games for team page.
+// 1. Points out the user.
+// 2. Selects only the club key and the games key.
+// 3. Make array with object for every game.
+// 4. Only select games that have ended (not forthcoming games).
+// 5. Specifies which keys are interesting.
+// 6. Grouping. Selects all the stats desired and makes calculations.
 router.get('/teamStats/:userID',(req,res,next)=>{
    Assistant.aggregate([
          {$match:{'username':req.params.userID}},
-         {$unwind:'$games'},
          {$project:{club:1,games:1}},
+         {$unwind:'$games'},
          {$match:{'games.ended':true}},
          {$project:{club:1,'games.goals':1,'games.shots':1,'games.corners':1,'games.yellow':1,'games.red':1}},
          {$group:{_id:'statsForTeam',count:{$sum:1},club:{$first:'$club'},totalGoalsFor:{$sum:'$games.goals.for'},totalGoalsAgainst:{$sum:'$games.goals.against'},totalShotsFor:{$sum:'$games.shots.for'},totalShotsAgainst:{$sum:'$games.shots.against'},avgGoalsFor:{$avg:'$games.goals.for'},avgGoalsAgainst:{$avg:'$games.goals.against'},avgShotsFor:{$avg:'$games.shots.for'},avgShotsAgainst:{$avg:'$games.shots.against'},avgCornerFor:{$avg:'$games.corners.for'},avgCornerAgainst:{$avg:'$games.corners.against'},avgYellowFor:{$avg:'$games.yellow.for'},avgRedFor:{$avg:'$games.red.for'}}},
@@ -101,8 +120,7 @@ router.get('/teamStats/:userID',(req,res,next)=>{
    });
 });
 
-
-
+// Updates all the subdocuments of players with new training.
 router.put('/training',(req,res,next)=>{
    let players = req.body.players;
    let username = req.body.username;

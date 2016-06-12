@@ -3,13 +3,14 @@ const mongoose = require('mongoose');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 
-// Define schema for users
+// Schema for subdocuments. Instances created when users add players.
 const playerSchema = new mongoose.Schema({
    name: String,
    age: Number,
    trainings: [Number]
 });
 
+// Schema for subdocuments. Instances created when users add games.
 const gameSchema = new mongoose.Schema({
    opponent: String,
    date: String,
@@ -23,6 +24,7 @@ const gameSchema = new mongoose.Schema({
    players: [{id:String,name:String,goals:{type:Number,'default':0},shots:{type:Number,'default':0},assists:{type:Number,'default':0},bonus:{type:Number,'default':0},yellow:{type:Number,'default':0},red:{type:Number,'default':0},minutes:{in:{type:Number,'default':0},out:{type:Number,'default':0},total:{type:Number,'default':0}}}]
 });
 
+// Main schema. Filled when a user creates an account.
 const assistantSchema = new mongoose.Schema({
    username: {type: String, lowercase: true, unique: true},
    hash: String,

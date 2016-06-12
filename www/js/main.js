@@ -266,7 +266,7 @@ var searchFactory = angular.module('coachApp.search', []).factory('search', ['$h
       return $http.get('http://localhost:3000/api/trainerStats/' + id);
    };
 
-   // Gets playerstats (training) for playerpages. Parameter is $stateParams.
+   // Gets teamstats for teampage. Parameter is username of logged in user.
    search.getTeamStats = function (username) {
       return $http.get('http://localhost:3000/api/teamStats/' + username);
    };
@@ -322,42 +322,15 @@ var gameStatsCtrl = angular.module('coachApp.GameStatsCtrl', []).controller('Gam
    $scope.change = {};
    $scope.assist = false;
 
+   // Calls factory. Gets stats for game from database. Sets it to game-variable in scope.
    search.getGameStats($scope.id).success(function (response) {
       $scope.game = response.game;
+      // if($scope.game.ended){
+      //    $state.go('nav.after',{gameID:$scope.game._id});
+      // }
    });
 
-   $scope.updateGameStats = function () {
-      console.log($scope.assist);
-      var stats = $scope.change.stats;
-      $scope.game[stats[0]][stats[1]] += 1;
-      if (stats[1] === "for" && stats[0] === "goals") {
-         $scope.closeModal(1);
-         var playerIndex = $scope.game.players.findIndex(function (x) {
-            return x._id === $scope.change.id;
-         });
-         var playerIndex2 = $scope.game.players.findIndex(function (x) {
-            return x._id === $scope.change.assist;
-         });
-         $scope.game.players[playerIndex].goals += 1;
-         $scope.game.players[playerIndex].shots += 1;
-         $scope.game.players[playerIndex2].assists += 1;
-         $scope.game.shots.for += 1;
-         $scope.assist = false;
-      } else if (stats[1] === "for" && stats[0] !== "goals" && stats[0] !== "corners") {
-         $scope.closeModal(1);
-         var _playerIndex = $scope.game.players.findIndex(function (x) {
-            return x._id === $scope.change.id;
-         });
-         $scope.game.players[_playerIndex][stats[0]] += 1;
-      } else if (stats[1] === "against" && stats[0] === "goals") {
-         $scope.closeModal(1);
-         $scope.game.shots.against += 1;
-      }
-      search.updateGameStats($scope.game).success(function (response) {
-         console.log('Spelsituation bifogad');
-      });
-   };
-
+   // Sets starting eleven. Calls factory. Players in starting eleven gets minutes.out set to 90. On success goes to page for adding stats.
    $scope.setEleven = function () {
       search.updateGameStats($scope.game).success(function (response) {
          console.log('Startelva bifogad');
@@ -365,72 +338,7 @@ var gameStatsCtrl = angular.module('coachApp.GameStatsCtrl', []).controller('Gam
       });
    };
 
-   $scope.saveGameOnEnd = function () {
-      $scope.game.players.forEach(function (x) {
-         x.minutes.total = x.minutes.out - x.minutes.in;
-      });
-      $scope.game.ended = true;
-      search.updateGameStats($scope.game).success(function (response) {
-         console.log('Totalt antal minuter tillagt');
-         console.log($scope.game._id);
-         $state.go('nav.after', { gameID: $scope.game._id });
-      });
-   };
-
-   $scope.giveBonus = function () {
-      $scope.closeModal(3);
-      search.updateGameStats($scope.game).success(function (response) {
-         console.log('Delade ut pluspoäng');
-      });
-   };
-
-   $scope.sub = {};
-   $scope.makeSub = function () {
-      $scope.closeModal(2);
-      var subInIndex = $scope.game.players.findIndex(function (x) {
-         return x._id === $scope.sub.in;
-      });
-      var subOutIndex = $scope.game.players.findIndex(function (x) {
-         return x._id === $scope.sub.out;
-      });
-      $scope.game.players[subInIndex].minutes.in = $scope.sub.time;
-      $scope.game.players[subInIndex].minutes.out = 90;
-      $scope.game.players[subOutIndex].minutes.out = $scope.sub.time;
-      search.updateGameStats($scope.game).success(function (response) {
-         console.log('Byte genomfört');
-         $window.location.reload(true);
-      });
-   };
-
-   $scope.isNinety = function (player) {
-      if (player.minutes.out === 90) {
-         return true;
-      } else {
-         return false;
-      }
-   };
-   $scope.notNinety = function (player) {
-      if (player.minutes.out !== 90) {
-         return true;
-      } else {
-         return false;
-      }
-   };
-   $scope.playerOnBench = function (player) {
-      if (player.minutes.out === 0) {
-         return true;
-      } else {
-         return false;
-      }
-   };
-   $scope.hasPlayed = function (player) {
-      if (player.minutes.out > 0) {
-         return true;
-      } else {
-         return false;
-      }
-   };
-
+   // When event occurs, stat to be added, sets which event. Used for layout in modal.
    $scope.setEvent = function () {
       console.log($scope.change.stats[0]);
       switch ($scope.change.stats[0]) {
@@ -453,6 +361,128 @@ var gameStatsCtrl = angular.module('coachApp.GameStatsCtrl', []).controller('Gam
       }
    };
 
+   // Updates stats.
+   $scope.updateGameStats = function () {
+      console.log($scope.assist);
+      // Variable stats is stat to be changed. (Example ['goals','for'])
+      var stats = $scope.change.stats;
+      // Adds to the stat to be changed.
+      $scope.game[stats[0]][stats[1]] += 1;
+      // If a goal has been scored by user-team. Adds a shot and a goal for selected player. Adds assist to player that assisted. Also adds shot to total shots in game.
+      if (stats[1] === "for" && stats[0] === "goals") {
+         $scope.closeModal(1);
+         var playerIndex = $scope.game.players.findIndex(function (x) {
+            return x._id === $scope.change.id;
+         });
+         var playerIndex2 = $scope.game.players.findIndex(function (x) {
+            return x._id === $scope.change.assist;
+         });
+         $scope.game.players[playerIndex].goals += 1;
+         $scope.game.players[playerIndex].shots += 1;
+         $scope.game.players[playerIndex2].assists += 1;
+         $scope.game.shots.for += 1;
+         $scope.assist = false;
+      }
+      // Event for that is not goal or corner. Adds plus one to stat for selected player.
+      else if (stats[1] === "for" && stats[0] !== "goals" && stats[0] !== "corners") {
+            $scope.closeModal(1);
+            var _playerIndex = $scope.game.players.findIndex(function (x) {
+               return x._id === $scope.change.id;
+            });
+            $scope.game.players[_playerIndex][stats[0]] += 1;
+         }
+         // If goal against. Also add one to total shots in game for opponent.
+         else if (stats[1] === "against" && stats[0] === "goals") {
+               $scope.closeModal(1);
+               $scope.game.shots.against += 1;
+            }
+      // Calls factory. Sends the game object to database and updates.
+      search.updateGameStats($scope.game).success(function (response) {
+         console.log('Spelsituation bifogad');
+      });
+   };
+
+   // Makes substitution. Finds player to be replaced and sets minutes.out to the minute of the substitution. Finds player to come on and sets minutes.in to minute of substitution. Sets time out to 90 to ensure the player is visible for selection i stats-modal.
+   $scope.sub = {};
+   $scope.makeSub = function () {
+      $scope.closeModal(2);
+      var subInIndex = $scope.game.players.findIndex(function (x) {
+         return x._id === $scope.sub.in;
+      });
+      var subOutIndex = $scope.game.players.findIndex(function (x) {
+         return x._id === $scope.sub.out;
+      });
+      $scope.game.players[subInIndex].minutes.in = $scope.sub.time;
+      $scope.game.players[subInIndex].minutes.out = 90;
+      $scope.game.players[subOutIndex].minutes.out = $scope.sub.time;
+      // Calls factory. Sends the game object to database and updates.
+      search.updateGameStats($scope.game).success(function (response) {
+         console.log('Byte genomfört');
+         $window.location.reload(true);
+      });
+   };
+
+   // After the game gives plus one to player.bonus if player has performed well.
+   $scope.giveBonus = function () {
+      $scope.closeModal(3);
+      // Calls factory. Sends the game object to database and updates.
+      search.updateGameStats($scope.game).success(function (response) {
+         console.log('Delade ut pluspoäng');
+      });
+   };
+
+   // At the end of the game saves it as finalized. Also calculates how many minutes players have played and adds it to the players.minutes.total.
+   $scope.saveGameOnEnd = function () {
+      $scope.game.players.forEach(function (x) {
+         x.minutes.total = x.minutes.out - x.minutes.in;
+      });
+      $scope.game.ended = true;
+      // Calls factory. Sends the game object to database and updates.
+      search.updateGameStats($scope.game).success(function (response) {
+         console.log('Totalt antal minuter tillagt');
+         console.log($scope.game._id);
+         $state.go('nav.after', { gameID: $scope.game._id });
+      });
+   };
+
+   // Filters for which players to display in various modals.
+   // True if player is currently on the pitch?
+   $scope.isNinety = function (player) {
+      if (player.minutes.out === 90) {
+         return true;
+      } else {
+         return false;
+      }
+   };
+   // True if player is not currently on the pitch.
+   $scope.notNinety = function (player) {
+      if (player.minutes.out !== 90) {
+         return true;
+      } else {
+         return false;
+      }
+   };
+   // True if player did not play at all.
+   $scope.playerOnBench = function (player) {
+      if (player.minutes.out === 0) {
+         return true;
+      } else {
+         return false;
+      }
+   };
+   //  True if player participated in the game.
+   $scope.hasPlayed = function (player) {
+      if (player.minutes.out > 0) {
+         return true;
+      } else {
+         return false;
+      }
+   };
+
+   // Modal provided by Ionic.
+   // Id 1 - modal for adding stats.
+   // Id 2 - modal for making substitutions.
+   // Id 2 - modal for handing out bonuspoints to players.
    $ionicModal.fromTemplateUrl('/app/gameStats/modal.html', {
       id: '1',
       scope: $scope,
@@ -522,10 +552,12 @@ var gamesCtrl = angular.module('coachApp.GamesCtrl', []).controller('GamesCtrl',
    $scope.game = {};
    $scope.game.venue = "Hemma";
 
+   // Calls factory. Gets all the games from database.
    search.getGames().success(function (response) {
       $scope.allGames = response.games;
    });
 
+   // Calls factory. Adds a game to database. On success empties object and reloads.
    $scope.addGame = function () {
       $scope.game.username = $scope.loggedIn.username;
       search.addGame($scope.game).success(function (response) {
@@ -534,12 +566,14 @@ var gamesCtrl = angular.module('coachApp.GamesCtrl', []).controller('GamesCtrl',
       });
    };
 
+   // Calls factory. Removes game from database. Removes game from app if success.
    $scope.remove = function (game) {
       search.removeGame(game).success(function (response) {
          $scope.allGames.splice($scope.allGames.indexOf(game), 1);
       });
    };
 
+   // Ionic provides modal.
    $ionicModal.fromTemplateUrl('/app/games/modal.html', {
       scope: $scope,
       animation: 'slide-in-up'
@@ -643,6 +677,7 @@ var playerStatsCtrl = angular.module('coachApp.PlayerStatsCtrl', []).controller(
    $scope.flipped = false;
    $scope.noGames = false;
 
+   // Gets player stats (games) from database. Calls factory.
    search.getPlayerStats($scope.id).success(function (response) {
       $scope.player = response.player[0];
       console.log(response.player.length);
@@ -651,6 +686,7 @@ var playerStatsCtrl = angular.module('coachApp.PlayerStatsCtrl', []).controller(
       }
    });
 
+   // Gets player stats (trainings) from database. Calls factory.
    search.getTrainingStats($scope.id).success(function (response) {
       $scope.trainer = response.trainer[0];
    });
@@ -667,6 +703,8 @@ Object.defineProperty(exports, "__esModule", {
 var playersCtrl = angular.module('coachApp.PlayersCtrl', []).controller('PlayersCtrl', function ($scope, $state, $window, auth, search, $ionicModal) {
    $scope.loggedIn = auth.currentUser();
    $scope.player = {};
+
+   // Gets all the players from database. Calls factory.
    if ($scope.loggedIn) {
       search.getPlayers($scope.loggedIn).success(function (response) {
          console.log(response);
@@ -674,6 +712,7 @@ var playersCtrl = angular.module('coachApp.PlayersCtrl', []).controller('Players
       });
    }
 
+   // Adds a player (subdocument) to the database. Emptys player object.
    $scope.addPlayer = function () {
       $scope.player.username = $scope.loggedIn.username;
       search.addPlayer($scope.player).success(function (response) {
@@ -683,12 +722,14 @@ var playersCtrl = angular.module('coachApp.PlayersCtrl', []).controller('Players
       });
    };
 
+   // Removes a player from the database.
    $scope.remove = function (player) {
       search.removePlayer(player).success(function (response) {
          $scope.allPlayers.splice($scope.allPlayers.indexOf(player), 1);
       });
    };
 
+   // Modal provided by Ionic.
    $ionicModal.fromTemplateUrl('/app/players/modal.html', {
       scope: $scope,
       animation: 'slide-in-up'
@@ -713,6 +754,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 var practiceCtrl = angular.module('coachApp.PracticeCtrl', []).controller('PracticeCtrl', function ($scope, $state, auth, search, $ionicPopup) {
    $scope.loggedIn = auth.currentUser();
+
+   // Gets all the players. Calls factory. Creates and adds temporary key to player-objects.
    if ($scope.loggedIn) {
       search.getPlayers($scope.loggedIn).success(function (response) {
          $scope.allPlayers = response.players;
@@ -722,6 +765,7 @@ var practiceCtrl = angular.module('coachApp.PracticeCtrl', []).controller('Pract
       });
    }
 
+   // Saves practice. Pushes 1 or 0 to array in player-subdocument. Deletes temporary key and saves to database. Calls factory.
    $scope.savePractice = function () {
       $scope.allPlayers.forEach(function (x) {
          x.trainings.push(x.training);
@@ -732,7 +776,7 @@ var practiceCtrl = angular.module('coachApp.PracticeCtrl', []).controller('Pract
       });
    };
 
-   // An alert dialog
+   // An alert dialog. Provided by Ionic.
    $scope.showAlert = function () {
       var alertPopup = $ionicPopup.alert({
          title: 'Träningen har sparats.',
@@ -763,6 +807,7 @@ var teamStatsCtrl = angular.module('coachApp.TeamStatsCtrl', []).controller('Tea
    $scope.flipped = false;
    $scope.noGames = false;
 
+   // Gets all stats about team from database. Calls factory.
    search.getTeamStats($scope.loggedIn.username).success(function (response) {
       $scope.team = response.team[0];
       console.log(response.team.length);

@@ -2,6 +2,8 @@ const playersCtrl = angular.module('coachApp.PlayersCtrl',[])
 .controller('PlayersCtrl',($scope, $state, $window, auth, search,$ionicModal)=>{
    $scope.loggedIn = auth.currentUser();
    $scope.player = {};
+
+   // Gets all the players from database. Calls factory.
    if($scope.loggedIn){
       search.getPlayers($scope.loggedIn).success((response)=>{
          console.log(response);
@@ -9,6 +11,7 @@ const playersCtrl = angular.module('coachApp.PlayersCtrl',[])
       });
    }
 
+   // Adds a player (subdocument) to the database. Emptys player object.
    $scope.addPlayer = ()=>{
       $scope.player.username = $scope.loggedIn.username;
       search.addPlayer($scope.player).success((response)=>{
@@ -18,13 +21,14 @@ const playersCtrl = angular.module('coachApp.PlayersCtrl',[])
       });
    };
 
+   // Removes a player from the database.
    $scope.remove = (player)=>{
       search.removePlayer(player).success((response)=>{
          $scope.allPlayers.splice($scope.allPlayers.indexOf(player),1);
       });
    };
 
-
+   // Modal provided by Ionic.
    $ionicModal.fromTemplateUrl('/app/players/modal.html', {
       scope: $scope,
       animation: 'slide-in-up'

@@ -50,16 +50,14 @@
 
 /* flip speed goes here */
 .flipper {
-   transition: 0.6s;
+   @include transition(0.6s);
    transform-style: preserve-3d;
-
    position: relative;
 }
 
 /* hide back of pane during swap */
 .front, .back {
    backface-visibility: hidden;
-
    position: absolute !important;
    top: 0;
    left: 0;

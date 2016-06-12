@@ -5,6 +5,7 @@ const teamStatsCtrl = angular.module('coachApp.TeamStatsCtrl',[])
    $scope.flipped = false;
    $scope.noGames = false;
 
+   // Gets all stats about team from database. Calls factory.
    search.getTeamStats($scope.loggedIn.username).success((response)=>{
       $scope.team = response.team[0];
       console.log(response.team.length);

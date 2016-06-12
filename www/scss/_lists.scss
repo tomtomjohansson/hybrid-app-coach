@@ -1,8 +1,4 @@
-ion-item:nth-child(even) .item-content{
-   background-color: $lightroyal !important;
-}
-
-.every-other:nth-child(even){
+ion-item:nth-child(even) .item-content,.every-other:nth-child(even){
    background-color: $lightroyal !important;
 }
 

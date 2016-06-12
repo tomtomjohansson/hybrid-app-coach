@@ -5,6 +5,7 @@ const Assistant = require('../models/assistant');
 const moment = require('moment');
 const mongoose = require('mongoose');
 
+// Finds all players of specific user.
 router.post('/',(req,res,next)=>{
    Assistant.findOne({username:req.body.username},(err,user)=>{
       if(err){
@@ -16,6 +17,7 @@ router.post('/',(req,res,next)=>{
    });
 });
 
+// Adds subdocument with new player.
 router.put('/',(req,res,next)=>{
    let player = {name:req.body.name,age:req.body.age};
    let update = {$push:{players:player}};
@@ -31,6 +33,7 @@ router.put('/',(req,res,next)=>{
    });
 });
 
+// Deletes subdocument of player.
 router.delete('/:id/:user',(req,res,next)=>{
    let id = req.params.id;
    let user = req.params.user;
