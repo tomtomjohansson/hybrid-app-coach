@@ -1,0 +1,28 @@
+<ion-view view-title="Lagstatistik">
+   <ion-content id="stat-page" class="padding">
+      <div class="list card front">
+         <div class="item">
+            <h2><strong>{{team.club}}</strong></h2>
+            <p class="right allign-bottom"><strong>Spelade matcher:</strong> {{team.count}}</p>
+         </div>
+         <div class="item item-text-wrap player-stats">
+            <p class="player-headline player-stat">Offensiv</p>
+            <p class="player-headline player-stat">Defensiv</p>
+            <p class="player-stat"><strong>Mål totalt: </strong>{{team.totalGoalsFor}}</p>
+            <p class="player-stat"><strong>Insläppta totalt: </strong>{{team.totalGoalsAgainst}}</p>
+            <p class="player-stat"><strong>Mål i snitt: </strong>{{team.avgGoalsFor | number:2}}</p>
+            <p class="player-stat"><strong>Insläppta i snitt: </strong>{{team.avgGoalsAgainst | number:2}}</p>
+            <p class="player-stat"><strong>Avslut i snitt: </strong>{{team.avgShotsFor | number:2}}</p>
+            <p class="player-stat"><strong>Avslut mot i snitt: </strong>{{team.avgShotsAgainst | number:2}}</p>
+            <p class="player-stat"><strong>Avslut i mål: </strong>{{team.shotConversionFor * 100 | number:1}}%</p>
+            <p class="player-stat"><strong>Avslut mot i mål: </strong>{{team.shotConversionAgainst *100 | number:1}}%</p>
+            <p class="player-stat"><strong>Hörnor i snitt: </strong>{{team.avgCornerFor | number:2}}</p>
+            <p class="player-stat"><strong>Hörnor mot i snitt: </strong>{{team.avgCornerAgainst | number:2}}</p><hr>
+            <p class="player-headline">Disciplin</p>
+            <p class="player-stat"><strong>Gula kort per match: </strong>{{team.avgYellowFor | number:2}}</p>
+            <p class="player-stat"><strong>Röda kort per match: </strong>{{team.avgRedFor | number:2}}</p>
+         </div>
+      </div>
+   </ion-content>
+   <!-- <tabs-for-game></tabs-for-game> -->
+</ion-view>

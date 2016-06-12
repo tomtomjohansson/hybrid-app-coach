@@ -54,6 +54,7 @@ const gameStatsCtrl = angular.module('coachApp.GameStatsCtrl',[])
       $scope.game.players.forEach((x)=>{
          x.minutes.total = x.minutes.out - x.minutes.in;
       });
+      $scope.game.ended = true;
       search.updateGameStats($scope.game).success((response)=>{
          console.log('Totalt antal minuter tillagt');
          console.log($scope.game._id);

@@ -1,31 +1,15 @@
-/*
-To customize the look and feel of Ionic, you can override the variables
-in ionic's _variables.scss file.
-
-For example, you might change some of the default colors:
-
-$light:                           #fff !default;
-$stable:                          #f8f8f8 !default;
-$positive:                        #387ef5 !default;
-$calm:                            #11c1f3 !default;
-$balanced:                        #33cd5f !default;
-$energized:                       #ffc900 !default;
-$assertive:                       #ef473a !default;
-$royal:                           #886aea !default;
-$dark:                            #444 !default;
-*/
-
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
 
-
-
 // Include all of Ionic
 @import '_variables';
-
 @import "../lib/ionic/scss/ionic";
-
-@import 'mixins';
+@import '_mixins';
+@import 'nav';
+@import '_stats';
+@import '_tabs';
+@import '_login';
+@import '_lists';
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important;
@@ -37,126 +21,8 @@ ion-content:not(.nav-content){
    background-position: center;
 }
 
-.nav-content{
-   // background-color:black !important;
-}
-
-.tab-nav{
-   border-top: 2px solid $royal !important;
-   background-color: black !important;
-}
-
-.tab-item{
-   background-color: black;
-   opacity:1;
-   color:#999 !important;
-   transition: all 0.3s ease-in;
-   border-top:0px;
-   i{
-      height:30px !important;
-      margin-top:2px !important;
-   }
-}
-
-// .tab1.tab-text ~ #slider{
-//    margin-left:-99.9%;
-// }
-// .tab2.tab-text ~ #slider{
-//    margin-left:-66.6%;
-// }
-// .tab3.tab-text ~ #slider{
-//    margin-left:-33.3%;
-// }
-
-
-.tab-text{
-   border-top:2px solid white !important;
-   background-color: white !important;
-   color: $off-black !important;
-}
-
-// #slider{
-//    position:absolute !important;
-//    height: 100%;
-//    width: 33.3%;
-//    margin-left: -99.9%;
-//    margin-top:-2px;
-//    border-top: 2px solid black !important;
-//    background-color: transparent !important;
-//    transition: .4s ease-in-out;
-// }
-
 .action-text{
    background-color:$lightroyal !important;
-}
-
-ion-side-menu .bar-header.bar-stable{
-   color:white !important;
-   height:150px !important;
-   background-image: linear-gradient(
-      rgba(0, 0, 0, 0.2),
-      rgba(0, 0, 0, 0.2)
-    ),
-    url('../img/grass.jpg') !important;
-   background-size: cover;
-}
-
-.item-divider{
-   background-color: $off-black !important;
-   color:white !important;
-}
-
-#nav-list{
-   position:relative;
-   top:106px !important;
-}
-
-#register,#login{
-   padding-top:80px;
-   .input-label{
-      color:#777;
-   }
-   input[type=text],textarea,input[type=password],input[type=email]{
-      color:white !important;
-   }
-   .callToRegister{
-      color:white;
-      font-size:1.1em;
-      text-shadow:$text-shadow;
-      a{
-         color:$royal;
-      }
-   }
-}
-
-ion-item, #nav-list .item, .item-toggle{
-   border-style: none !important;
-}
-
-#nav-team{
-   position:absolute;
-   bottom:2px;
-   left:22px;
-   text-shadow:$text-shadow;
-   font-weight: bold;
-   text-transform: uppercase;
-}
-
-#nav-logo{
-   margin-left:-2px !important;
-   font-size:2.2rem !important;
-   position:absolute !important;
-   color:white !important;
-   top:75px !important;
-   right:70px !important;
-   left:2px !important;
-   text-shadow: 5px 5px 6px rgba(#222,0.9);
-   font-weight: bold;
-   // text-transform: uppercase;
-   font-family: $berkshire;
-   i{
-      margin-left:2px;
-   }
 }
 
 .centre-text{
@@ -171,17 +37,8 @@ ion-item, #nav-list .item, .item-toggle{
    float:left;
 }
 
-ion-item:nth-child(even) .item-content{
-   background-color: $lightroyal !important;
-}
-
-.every-other:nth-child(even){
-   background-color: $lightroyal !important;
-}
-
 .stats{
    ion-item{
-      // font-size: 20px !important;
       vertical-align: text-bottom !important;
    }
    .stat-button{
@@ -195,50 +52,13 @@ ion-item:nth-child(even) .item-content{
    }
 }
 
-.title.title-center.header-item {
-   // font-family: $berkshire;
-   text-transform: capitalize !important;
-}
-
-
-#stat-page{
-   h2{
-      text-transform: uppercase;
-      display: inline-block;
-      vertical-align: middle !important;
-   }
-   button{
-      // vertical-align: middle !important;
-      padding: 4px 8px !important;
-      margin-top:4px;
-   }
-   .player-headline{
-      text-transform: uppercase;
-      color:$royal;
-   }
-   .player-stat {
-      display: inline-block;
-      min-width:48%;
-      // margin-left:10px;
-      i{
-         margin-right:6px;
-         font-size:1.6em;
-      }
-      .ion-close-circled{
-         color:$assertive !important;
-      }
-      .ion-checkmark-circled{
-         color:$royal !important;
-      }
-   }
-}
-
-
+//Keep from jumping
 .card {
    -webkit-transform: translate3d(0, 0, 0);
    transform: translate3d(0, 0, 0);
 }
 
+//On state-change
 .animation {
    .ng-enter {
       transition: 0.3s;

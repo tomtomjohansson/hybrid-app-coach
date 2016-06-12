@@ -6,6 +6,7 @@ import authCtrl from './login/authenticate.js';
 import navCtrl from './nav/navigation.js';
 import playersCtrl from './players/players.js';
 import playerStatsCtrl from './playerStats/playerStats.js';
+import teamStatsCtrl from './teamStats/teamStats.js';
 import gamesCtrl from './games/games.js';
 import gameStatsCtrl from './gameStats/gameStats.js';
 import practiceCtrl from './practice/practice.js';
@@ -13,7 +14,7 @@ import tabDir from './gameStats/tabDirective.js';
 
 // 'coachApp' is the name of this angular module.
 // the 2nd parameter is an array of imports
-angular.module('coachApp', ['ionic',authFactory.name,searchFactory.name,loadFactory.name,authCtrl.name,navCtrl.name,playersCtrl.name,playerStatsCtrl.name,gamesCtrl.name,gameStatsCtrl.name,practiceCtrl.name,tabDir.name])
+angular.module('coachApp', ['ionic',authFactory.name,searchFactory.name,loadFactory.name,authCtrl.name,navCtrl.name,playersCtrl.name,playerStatsCtrl.name,teamStatsCtrl.name,gamesCtrl.name,gameStatsCtrl.name,practiceCtrl.name,tabDir.name])
 
 .run(function($ionicPlatform) {
    $ionicPlatform.ready(function() {
@@ -67,6 +68,12 @@ angular.module('coachApp', ['ionic',authFactory.name,searchFactory.name,loadFact
       url: '/players/:playerID',
       templateUrl: 'app/playerStats/playerStats.html',
       controller: 'PlayerStatsCtrl',
+      cache:false
+   })
+   .state('nav.team', {
+      url: '/team',
+      templateUrl: 'app/teamStats/teamStats.html',
+      controller: 'TeamStatsCtrl',
       cache:false
    })
    .state('nav.games', {

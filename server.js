@@ -31,12 +31,12 @@ app.use(function(req, res, next) {
    next();
 });
 
-
+// Sets up routes
 app.use('/api/authenticate', login);
 app.use('/api', router);
 app.use('/api/games', games);
 app.use('/api/players', players);
-
+//Path to root index-file.
 app.get('/*', (req, res,next)=>{
    res.sendFile(path.join(__dirname, 'www/index.html'));
 });

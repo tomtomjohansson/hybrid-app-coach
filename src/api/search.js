@@ -80,6 +80,29 @@ router.get('/trainerStats/:playerID',(req,res,next)=>{
    });
 });
 
+router.get('/teamStats/:userID',(req,res,next)=>{
+   Assistant.aggregate([
+         {$match:{'username':req.params.userID}},
+         {$unwind:'$games'},
+         {$project:{club:1,games:1}},
+         {$match:{'games.ended':true}},
+         {$project:{club:1,'games.goals':1,'games.shots':1,'games.corners':1,'games.yellow':1,'games.red':1}},
+         {$group:{_id:'statsForTeam',count:{$sum:1},club:{$first:'$club'},totalGoalsFor:{$sum:'$games.goals.for'},totalGoalsAgainst:{$sum:'$games.goals.against'},totalShotsFor:{$sum:'$games.shots.for'},totalShotsAgainst:{$sum:'$games.shots.against'},avgGoalsFor:{$avg:'$games.goals.for'},avgGoalsAgainst:{$avg:'$games.goals.against'},avgShotsFor:{$avg:'$games.shots.for'},avgShotsAgainst:{$avg:'$games.shots.against'},avgCornerFor:{$avg:'$games.corners.for'},avgCornerAgainst:{$avg:'$games.corners.against'},avgYellowFor:{$avg:'$games.yellow.for'},avgRedFor:{$avg:'$games.red.for'}}},
+         {$project:{club:1,count:1,totalGoalsFor:1,totalGoalsAgainst:1,avgGoalsFor:1,avgGoalsAgainst:1,avgShotsFor:1,avgShotsAgainst:1,avgCornerFor:1,avgCornerAgainst:1,avgYellowFor:1,avgRedFor:1,shotConversionFor:{$cond:[{$eq:[ "$totalShotsFor", 0 ]},0,{$divide:["$totalGoalsFor", "$totalShotsFor"]}]},shotConversionAgainst:{$cond:[{$eq:[ "$totalShotsAgainst", 0 ]},0,{$divide:["$totalGoalsAgainst", "$totalShotsAgainst"]}]}}}
+      ],
+      (err,team)=>{
+      if(err){
+         return res.status(500).json({message: err.message});
+      }
+      else{
+         console.log(team);
+         res.json({team:team});
+      }
+   });
+});
+
+
+
 router.put('/training',(req,res,next)=>{
    let players = req.body.players;
    let username = req.body.username;

@@ -14,6 +14,7 @@ const gameSchema = new mongoose.Schema({
    opponent: String,
    date: String,
    venue: String,
+   ended: {type:Boolean,'default':false},
    goals: {for:{type:Number,'default':0},against:{type:Number,'default':0}},
    shots: {for:{type:Number,'default':0},against:{type:Number,'default':0}},
    corners: {for:{type:Number,'default':0},against:{type:Number,'default':0}},

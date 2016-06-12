@@ -1,0 +1,40 @@
+#nav-team{
+   position:absolute;
+   bottom:2px;
+   left:22px;
+   text-shadow:$text-shadow;
+   font-weight: bold;
+   text-transform: uppercase;
+}
+
+#nav-logo{
+   margin-left:-2px !important;
+   font-size:2.2rem !important;
+   position:absolute !important;
+   color:white !important;
+   top:75px !important;
+   right:70px !important;
+   left:2px !important;
+   text-shadow: 5px 5px 6px rgba(#222,0.9);
+   font-weight: bold;
+   font-family: $berkshire;
+   i{
+      margin-left:2px;
+   }
+}
+
+#nav-list{
+   position:relative;
+   top:106px !important;
+}
+
+ion-side-menu .bar-header.bar-stable{
+   color:white !important;
+   height:150px !important;
+   background-image: linear-gradient(
+      rgba(0, 0, 0, 0.2),
+      rgba(0, 0, 0, 0.2)
+    ),
+    url('../img/grass.jpg') !important;
+   background-size: cover;
+}

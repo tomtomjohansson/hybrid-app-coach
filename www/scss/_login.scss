@@ -1,0 +1,17 @@
+#register,#login{
+   padding-top:80px;
+   .input-label{
+      color:#777;
+   }
+   input[type=text],textarea,input[type=password],input[type=email]{
+      color:white !important;
+   }
+   .callToRegister{
+      color:white;
+      font-size:1.1em;
+      text-shadow:$text-shadow;
+      a{
+         color:$royal;
+      }
+   }
+}

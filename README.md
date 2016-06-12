@@ -56,7 +56,7 @@ www/
 --------main.js
 ----scsss/
 --------all scss-files
---------index.html
+----index.html
 server.js
 ```
 ##### WWW directory

@@ -32,6 +32,11 @@ const searchFactory = angular.module('coachApp.search', [])
       return $http.get('http://localhost:3000/api/trainerStats/'+id);
    };
 
+   // Gets playerstats (training) for playerpages. Parameter is $stateParams.
+   search.getTeamStats = (username)=>{
+      return $http.get('http://localhost:3000/api/teamStats/'+username);
+   };
+
    // Gets all the games from the logged in user.
    search.getGames = ()=>{
       return $http.get('http://localhost:3000/api/games/'+currentUser.username);

@@ -29,6 +29,10 @@ var _playerStats = require('./playerStats/playerStats.js');
 
 var _playerStats2 = _interopRequireDefault(_playerStats);
 
+var _teamStats = require('./teamStats/teamStats.js');
+
+var _teamStats2 = _interopRequireDefault(_teamStats);
+
 var _games = require('./games/games.js');
 
 var _games2 = _interopRequireDefault(_games);
@@ -49,7 +53,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // 'coachApp' is the name of this angular module.
 // the 2nd parameter is an array of imports
-angular.module('coachApp', ['ionic', _login2.default.name, _searches2.default.name, _loading2.default.name, _authenticate2.default.name, _navigation2.default.name, _players2.default.name, _playerStats2.default.name, _games2.default.name, _gameStats2.default.name, _practice2.default.name, _tabDirective2.default.name]).run(function ($ionicPlatform) {
+// Ionic Starter App
+angular.module('coachApp', ['ionic', _login2.default.name, _searches2.default.name, _loading2.default.name, _authenticate2.default.name, _navigation2.default.name, _players2.default.name, _playerStats2.default.name, _teamStats2.default.name, _games2.default.name, _gameStats2.default.name, _practice2.default.name, _tabDirective2.default.name]).run(function ($ionicPlatform) {
    $ionicPlatform.ready(function () {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -96,6 +101,11 @@ angular.module('coachApp', ['ionic', _login2.default.name, _searches2.default.na
       templateUrl: 'app/playerStats/playerStats.html',
       controller: 'PlayerStatsCtrl',
       cache: false
+   }).state('nav.team', {
+      url: '/team',
+      templateUrl: 'app/teamStats/teamStats.html',
+      controller: 'TeamStatsCtrl',
+      cache: false
    }).state('nav.games', {
       url: '/games/:id',
       templateUrl: 'app/games/games.html',
@@ -124,12 +134,11 @@ angular.module('coachApp', ['ionic', _login2.default.name, _searches2.default.na
 
    // if none of the above states are matched, use this as the fallback
    $urlRouterProvider.otherwise('nav/login');
-}); // Ionic Starter App
-
+});
 
 angular.bootstrap(document, ['coachApp']);
 
-},{"./factories/loading.js":2,"./factories/login.js":3,"./factories/searches.js":4,"./gameStats/gameStats.js":5,"./gameStats/tabDirective.js":6,"./games/games.js":7,"./login/authenticate.js":8,"./nav/navigation.js":9,"./playerStats/playerStats.js":10,"./players/players.js":11,"./practice/practice.js":12}],2:[function(require,module,exports){
+},{"./factories/loading.js":2,"./factories/login.js":3,"./factories/searches.js":4,"./gameStats/gameStats.js":5,"./gameStats/tabDirective.js":6,"./games/games.js":7,"./login/authenticate.js":8,"./nav/navigation.js":9,"./playerStats/playerStats.js":10,"./players/players.js":11,"./practice/practice.js":12,"./teamStats/teamStats.js":13}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -257,6 +266,11 @@ var searchFactory = angular.module('coachApp.search', []).factory('search', ['$h
       return $http.get('http://localhost:3000/api/trainerStats/' + id);
    };
 
+   // Gets playerstats (training) for playerpages. Parameter is $stateParams.
+   search.getTeamStats = function (username) {
+      return $http.get('http://localhost:3000/api/teamStats/' + username);
+   };
+
    // Gets all the games from the logged in user.
    search.getGames = function () {
       return $http.get('http://localhost:3000/api/games/' + currentUser.username);
@@ -355,6 +369,7 @@ var gameStatsCtrl = angular.module('coachApp.GameStatsCtrl', []).controller('Gam
       $scope.game.players.forEach(function (x) {
          x.minutes.total = x.minutes.out - x.minutes.in;
       });
+      $scope.game.ended = true;
       search.updateGameStats($scope.game).success(function (response) {
          console.log('Totalt antal minuter tillagt');
          console.log($scope.game._id);
@@ -626,9 +641,14 @@ var playerStatsCtrl = angular.module('coachApp.PlayerStatsCtrl', []).controller(
    $scope.id = $stateParams.playerID;
    $scope.isNumber = angular.isNumber;
    $scope.flipped = false;
+   $scope.noGames = false;
 
    search.getPlayerStats($scope.id).success(function (response) {
       $scope.player = response.player[0];
+      console.log(response.player.length);
+      if (response.player.length === 0) {
+         $scope.noGames = true;
+      }
    });
 
    search.getTrainingStats($scope.id).success(function (response) {
@@ -730,6 +750,30 @@ var practiceCtrl = angular.module('coachApp.PracticeCtrl', []).controller('Pract
 });
 
 exports.default = practiceCtrl;
+
+},{}],13:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+   value: true
+});
+var teamStatsCtrl = angular.module('coachApp.TeamStatsCtrl', []).controller('TeamStatsCtrl', function ($scope, $state, auth, search) {
+   $scope.loggedIn = auth.currentUser();
+   $scope.isNumber = angular.isNumber;
+   $scope.flipped = false;
+   $scope.noGames = false;
+
+   search.getTeamStats($scope.loggedIn.username).success(function (response) {
+      $scope.team = response.team[0];
+      console.log(response.team.length);
+      console.log(response.team[0]);
+      if (response.team.length === 0) {
+         $scope.noGames = true;
+      }
+   });
+});
+
+exports.default = teamStatsCtrl;
 
 },{}]},{},[1])
 

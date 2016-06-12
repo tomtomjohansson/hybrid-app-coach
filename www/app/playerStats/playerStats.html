@@ -8,7 +8,10 @@
                   <button ng-click="flipped = !flipped" class="button right button-small button-royal">Visa träningsstatistik</button>
                   <p>{{trainer.age}} år</p>
                </div>
-               <div class="item item-text-wrap player-stats">
+               <div ng-show="noGames" class="item item-text-wrap player-stats">
+                  <p>Spelaren har inte spelat några matcher än.</p>
+               </div>
+               <div ng-hide="noGames" class="item item-text-wrap player-stats">
                   <p class="player-headline">Offensiv</p>
                   <p class="player-stat"><strong>Mål: </strong>{{player.goals}}</p>
                   <p class="player-stat"><strong>Assist: </strong>{{player.assists}}</p>
@@ -17,11 +20,11 @@
                   <p class="player-stat"><strong>Mål per match: </strong>{{player.goalsAvg | number:2}}</p>
                   <p class="player-stat" ng-show="isNumber(player.goalOnShotsAvg)"><strong>Procent av avslut i mål: </strong>{{player.goalOnShotsAvg * 100 | number:1}}%</p>
                   <p class="player-stat" ng-show="isNumber(player.goalOnShotsAvg)"><strong>Spelade minuter per mål: </strong>{{player.minutesPerGoal | number:1}}</p>
-                  <br><br>
+                  <hr>
                   <p class="player-headline">Disciplin</p>
                   <p class="player-stat"><strong>Gula kort: </strong>{{player.yellow}}</p>
                   <p class="player-stat"><strong>Röda kort: </strong>{{player.red}}</p>
-                  <br><br>
+                  <hr>
                   <p class="player-headline">Speltid</p>
                   <p class="player-stat"><strong>Spelade matcher: </strong>{{player.games}}</p>
                   <p class="player-stat"><strong>Spelade minuter: </strong>{{player.totalMinutes}}</p>
@@ -38,7 +41,7 @@
                </div>
                <div class="item item-text-wrap player-stats">
                   <p class="player-headline">Träningar</p>
-                  <p class="player-stat"><strong>Träningsnärvaro i procent: </strong>{{trainer.trainingPercentage | number:2}}</p>
+                  <p class="player-stat"><strong>Träningsnärvaro i procent: </strong>{{trainer.trainingPercentage *100 | number:1}}</p>
                   <p class="player-stat"><strong>Senaste fem träningarna (senaste sist):</strong><br><i ng-repeat="session in trainer.lastFive track by $index" class="icon" ng-class="session ? 'ion-checkmark-circled' : 'ion-close-circled'"></i></p>
                </div
             </div>
