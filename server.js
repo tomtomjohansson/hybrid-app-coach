@@ -19,18 +19,6 @@ require('./src/passport/passport');
 app.use(express.static(path.join(__dirname, 'www')));
 app.use(parser.json());
 
-app.use(function(req, res, next) {
-   // Website you wish to allow to connect
-   res.set('Access-Control-Allow-Origin', '*');
-   // Request methods you wish to allow
-   res.set('Access-Control-Allow-Methods', 'GET, POST, DELETE, PUT');
-   // Request headers you wish to allow
-   res.set('Access-Control-Allow-Headers', 'Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token');
-
-   // Pass to next layer of middleware
-   next();
-});
-
 // Sets up routes
 app.use('/api/authenticate', login);
 app.use('/api', router);
